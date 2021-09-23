@@ -1,45 +1,51 @@
-#include <stdlib.h>
 #include "main.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 /**
- * *string_nconcat - concatenates n bytes of a string to another string
- * @s1: string to append to
- * @s2: string to concatenate from
- * @n: number of bytes from s2 to concatenate to s1
- *
- * Return: pointer to the resulting string
+ * string_nconcat - Entry point
+ *@s1: string 1
+ *@s2: string 2
+ *@n: number of bytes
+ * Return: pointer should point to a newly allocated space in memory or NULL
  */
 char *string_nconcat(char *s1, char *s2, unsigned int n)
 {
-	char *s;
-	unsigned int i = 0, j = 0, len1 = 0, len2 = 0;
+	char *strnew = NULL;
+	unsigned int i, n1, n2, j, count, palabras;
 
-	while (s1 && s1[len1])
-		len1++;
-	while (s2 && s2[len2])
-		len2++;
-
-	if (n < len2)
-		s = malloc(sizeof(char) * (len1 + n + 1));
-	else
-		s = malloc(sizeof(char) * (len1 + len2 + 1));
-
-	if (!s)
-		return (NULL);
-
-	while (i < len1)
+	count = 0;
+	palabras = 0;
+	if (s1 == NULL)
+		s1 = "";
+	if (s2 == NULL)
+		s2 = "";
+	for (n1 = 0; s1[n1] != '\0'; n1++)
+		;
+	for (n2 = 0; s2[n2] != '\0'; n2++)
+		;
+	if (n >= n2)
 	{
-		s[i] = s1[i];
-		i++;
+		palabras = n2;
+
+	} else
+	{
+		for (n2 = 0; n2 < n; n2++)
+			palabras++;
 	}
-
-	while (n < len2 && i < (len1 + n))
-		s[i++] = s2[j++];
-
-	while (n >= len2 && i < (len1 + len2))
-		s[i++] = s2[j++];
-
-	s[i] = '\0';
-
-	return (s);
+	strnew = (char *)malloc((n1 + n2 + 1) * sizeof(char));
+	if (strnew == NULL)
+	{
+		return (NULL);
+	}
+	for (i = 0; s1[i] != '\0'; i++)
+		strnew[i] = s1[i];
+	for (j = 0; j < palabras; i++)
+	{
+		strnew[i] = s2[count];
+		count++;
+		j++;
+	}
+	strnew[i] = '\0';
+	return (strnew);
 }
